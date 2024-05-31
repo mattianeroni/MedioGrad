@@ -4,4 +4,5 @@ import graph
 a = Tensor([1,2,3])
 b = Tensor([1,1,1])
 c = a + b
-graph.draw_dot(c, format="png").render(filename="graph")
+c.backward()
+graph.draw_dot(c, format="png").render(filename="img/graph")
