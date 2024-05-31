@@ -1,8 +1,8 @@
 digraph {
 	graph [rankdir=LR]
-	4307929376 [label="tensor([2. 2. 2.]) | grad([0.   2.77 9.89])" shape=record]
-	4307929280 [label="tensor([1. 2. 3.]) | grad([2. 4. 6.])" shape=record]
-	4307929424 [label="tensor([1. 4. 9.]) | grad([1. 1. 1.])" shape=record]
-	4307929280 -> 4307929424
-	4307929376 -> 4307929424
+	4384931712 [label="tensor([1. 1. 1.]) | grad([1. 1. 1.])" shape=record]
+	4349708432 [label="tensor([1. 2. 3.]) | grad([1. 1. 1.])" shape=record]
+	4395846976 [label="tensor([2. 3. 4.]) | grad([1. 1. 1.])" shape=record]
+	4349708432 -> 4395846976
+	4384931712 -> 4395846976
 }
