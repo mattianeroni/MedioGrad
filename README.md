@@ -6,7 +6,7 @@ Not evoluted as [TinyGrad](https://github.com/tinygrad/tinygrad) since objective
 
 ### Stupid example
 
-python```
+```python
 from tensor import Tensor 
 import graph
 
