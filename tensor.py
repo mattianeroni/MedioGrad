@@ -1,6 +1,7 @@
 import numpy as np
-import collections
 from functools import partial
+
+import graph 
 
 
 class ConversionException(Exception):
@@ -82,7 +83,7 @@ class ReLU:
 class Tensor:
 
     def __init__(self, data, name=""):
-        if isinstance(data, (tuple, list)):
+        if isinstance(data, (tuple, list, np.ndarray)):
             self.data = np.asarray(data).astype(np.float32)
             self.grad = np.zeros(self.data.shape, dtype=np.float32)
         elif isinstance(data, Tensor):
@@ -137,19 +138,9 @@ class Tensor:
     def __rtruediv__(self, other):
         return other.__mul__(self.__pow__(-1))
     
-    #@staticmethod
-    #def topological_graph(node, visited_set, topo_graph):
-    #    if node in visited_set: return
-    #    visited_set.add(node)
-    #    topo_graph.append(node)
-    #    for child in node._parents:
-    #        Tensor.topological_graph(child)
-
-    #def backward(self):
-    #    # topological order all of the children in the graph
-    #    topo_graph = collections.deque()
-    #    visited_set = set()
-    #    Tensor.topological_graph(self, visited_set, topo_graph)
-    #    # go one variable at a time and apply the chain rule to get its gradient
-    #    self.grad = np.ones(self.data.shape)
-    #    for v in topo_graph: v._backward()
+    def backward(self):
+        # topological order all of the children in the graph
+        topo_graph = graph.topological_graph(self)
+        # go one variable at a time and apply the chain rule to get its gradient
+        self.grad = np.ones(self.data.shape)
+        for v in topo_graph: v._backward()
