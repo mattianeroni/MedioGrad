@@ -52,16 +52,16 @@ class Pow:
     _label = "**"
 
     @staticmethod
-    def forward(tensor, scalar):
-        assert isinstance(scalar, (int, float)), "Only power to scalar is supported"
-        out = Tensor(tensor.data**scalar)
-        out._parents = (tensor, )
-        out._backward = partial(Pow.backward, tensor, scalar, out)
+    def forward(t1, t2):
+        out = Tensor(t1.data**t2.data)
+        out._parents = (t1, t2)
+        out._backward = partial(Pow.backward, t1, t2, out)
         return out
 
     @staticmethod
-    def backward(tensor, scalar, out):
-        tensor.grad += (scalar * tensor.data**(scalar - 1)) * out.grad
+    def backward(t1, t2, out):
+        t1.grad += (t2.data * t1.data**(t2.data - 1)) * out.grad
+        t2.grad += (t1.data**t2.data) * np.log(t1.data) * out.grad
 
 
 class ReLU:
@@ -112,6 +112,8 @@ class Tensor:
         return Mul.forward(self, other)
 
     def __pow__(self, other):
+        if isinstance(other, (int, float)):
+            other = Tensor(np.full(self.data.shape, other))
         return Pow.forward(self, other)
 
     def relu(self):

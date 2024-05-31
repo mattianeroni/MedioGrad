@@ -1,6 +1,7 @@
 import graphviz
 import enum 
 import collections
+import numpy as np
 
 
 def topological_graph(node, visited_set=None, topo_graph=None):
@@ -47,7 +48,11 @@ def draw_dot(root, format='svg', direction=GraphDirection.horizontal):
     nodes, edges = trace(root)
     dot = graphviz.Digraph(format=format, graph_attr={'rankdir': direction.value}) #, node_attr={'rankdir': 'TB'})
     for n in nodes:
-        dot.node(name=str(n._pointer), label=f"{n} | grad({n.grad})", shape='record')
+        dot.node(
+            name=str(n._pointer), 
+            label=f"tensor({np.around(n.data, 2)}) | grad({np.around(n.grad, 2)})",
+            shape='record'
+        )
         if n.name:
             dot.node(name=str(n._pointer) + n.name, label=n.name)
             dot.edge(str(n._pointer) + n.name, str(n._pointer))
