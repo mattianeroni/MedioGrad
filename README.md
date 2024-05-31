@@ -16,4 +16,4 @@ c = a + b
 graph.draw_dot(c, format="png").render(filename="graph")
 ```
 
-![alt text](https://github.com/mattianeroni/mediograd/blob/main/graph.png)
+![alt text](https://github.com/mattianeroni/mediograd/blob/main/img/graph.png)
